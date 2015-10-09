@@ -15,6 +15,9 @@ class LRUCache
   end
 
   def get(key)
+    value = @prc.call(key)
+    @map.set(key,value)
+    value
   end
 
   def to_s
@@ -25,6 +28,7 @@ class LRUCache
 
   def calc!(key)
     # suggested helper method; insert an (un-cached) key
+
   end
 
   def update_link!(link)
