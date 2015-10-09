@@ -13,8 +13,11 @@ end
 class LinkedList
   attr_reader :head
 
+  include Enumerable
+
   def initialize
     @head = Link.new
+    @list = []
   end
 
   def [](i)
@@ -23,27 +26,60 @@ class LinkedList
   end
 
   def first
+    self[0]
   end
 
   def last
+    self[@list.count - 1]
   end
 
   def empty?
+    @list.empty?
   end
 
   def get(key)
+    @list.each do |link|
+      return link.val if link.key == key
+    end
+    nil
   end
 
   def include?(key)
+    @list.each do |link|
+      return true if link.key == key
+    end
+    false
   end
 
   def insert(key, val)
+    new_link = Link.new(key, val)
+    if empty?
+      remove(0)
+      @head = new_link
+    end
+
+    @list.last.next = new_link unless empty?
+    @list << new_link
+
+
   end
 
   def remove(key)
+    @list.each do |link|
+      if link.key == key
+        @list.delete(link)
+      end
+    end
+
+    nil
   end
 
   def each
+    i = 0
+    @list.each do |link|
+      yield(link)
+    end
+    self
   end
 
   # uncomment when you have `each` working and `Enumerable` included
