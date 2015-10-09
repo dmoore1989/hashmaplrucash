@@ -17,7 +17,7 @@ class HashMap
 
   def set(key, val)
     inspect
-    bucket(key).insert(key,val)
+    bucket(key).insert(key, val)
     @count += 1
   end
 
