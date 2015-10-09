@@ -1,8 +1,8 @@
 class Link
-  attr_accessor :key, :val, :next
+  attr_accessor :key, :val, :next, :prev
 
-  def initialize(key = nil, val = nil, nxt = nil)
-    @key, @val, @next = key, val, nxt
+  def initialize(key = nil, val = nil, nxt = nil,prev =nil)
+    @key, @val, @next, @previous = key, val, nxt, prev
   end
 
   def to_s
@@ -17,6 +17,7 @@ class LinkedList
 
   def initialize
     @head = Link.new
+    @tail = Link.new
     @list = []
   end
 
@@ -52,25 +53,30 @@ class LinkedList
   end
 
   def insert(key, val)
-    new_link = Link.new(key, val)
+    prev_link = last
+    new_link = Link.new(key, val, nil, prev_link)
     if empty?
       remove(0)
-      @head = new_link
     end
 
     @list.last.next = new_link unless empty?
     @list << new_link
+    @tail = new_link
 
 
   end
 
   def remove(key)
-    @list.each do |link|
+    @list.each_with_index do |link,idx|
       if link.key == key
         @list.delete(link)
+        @list[idx-1].next = @list[idx]
+        @list[idx+1].prev = @list[idx]
+        break
       end
     end
-
+    @head = first
+    @tail = last
     nil
   end
 
