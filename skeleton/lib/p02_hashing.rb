@@ -24,11 +24,11 @@ end
 
 class Hash
   def hash
-    hash_hsh = []
+    hash_hsh = 0
     keys.sort.each do |key|
-      hash_hsh << key.hash.to_s + self[key].hash.to_s
+      hash_hsh = key.hash + self[key].hash
     end
-    hash_hsh.join("").to_i
+    hash_hsh
 
   end
 end
