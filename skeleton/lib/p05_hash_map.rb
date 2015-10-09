@@ -32,6 +32,7 @@ class HashMap
 
   def each
     @store.each do |linked_list|
+      next if linked_list.head.val == nil
       linked_list.each do |link|
         yield(link.key, link.val)
       end
