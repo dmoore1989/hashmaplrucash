@@ -1,7 +1,7 @@
 require 'rspec'
 require 'p04_linked_list'
 
-describe LinkedList do
+describe LinkedList do3
   let(:list) do
     list = LinkedList.new
     list.insert(:first, 1)
@@ -31,6 +31,7 @@ describe LinkedList do
   end
 
   describe "#include?" do
+
     it "returns true if a key is present" do
       expect(list.include?(:first)).to be true
     end

@@ -1,8 +1,10 @@
-class Link
-  attr_accessor :key, :val, :next, :prev
+require 'byebug'
 
-  def initialize(key = nil, val = nil, nxt = nil,prev =nil)
-    @key, @val, @next, @previous = key, val, nxt, prev
+class Link
+  attr_accessor :key, :val, :next
+
+  def initialize(key = nil, val = nil, nxt = nil)
+    @key, @val, @next = key, val, nxt
   end
 
   def to_s
@@ -17,8 +19,6 @@ class LinkedList
 
   def initialize
     @head = Link.new
-    @tail = Link.new
-    @list = []
   end
 
   def [](i)
@@ -27,65 +27,70 @@ class LinkedList
   end
 
   def first
-    self[0]
+    @head
   end
 
   def last
-    self[@list.count - 1]
+    each do |link|
+      return link if link.next == nil
+    end
+
+    nil
   end
 
   def empty?
-    @list.empty?
+    @head.key.nil?
   end
 
   def get(key)
-    @list.each do |link|
+    each do |link|
       return link.val if link.key == key
     end
     nil
   end
 
   def include?(key)
-    @list.each do |link|
+    each do |link|
       return true if link.key == key
     end
     false
   end
 
   def insert(key, val)
-    prev_link = last
-    new_link = Link.new(key, val, nil, prev_link)
+    new_link = Link.new(key, val)
     if empty?
-      remove(0)
+      @head = new_link
+    else
+      last.next = new_link
     end
-
-    @list.last.next = new_link unless empty?
-    @list << new_link
-    @tail = new_link
-
 
   end
 
   def remove(key)
-    @list.each_with_index do |link,idx|
-      if link.key == key
-        @list.delete(link)
-        @list[idx-1].next = @list[idx]
-        @list[idx+1].prev = @list[idx]
-        break
+    unless head.next.nil?
+      each do |link|
+        if link.next == nil
+          @head = Link.new
+        elsif link.next.key == key
+          link.next = link.next.next
+          break
+        end
       end
     end
     @head = first
-    @tail = last
+
     nil
   end
 
   def each
-    @list.each do |link|
-      yield(link)
+    curr_link = @head
+    until curr_link.next.nil?
+      yield(curr_link)
+      curr_link = curr_link.next
     end
-
+    yield(curr_link)
     self
+
   end
 
   # uncomment when you have `each` working and `Enumerable` included
