@@ -1,7 +1,7 @@
 require 'rspec'
 require 'p04_linked_list'
 
-describe LinkedList do3
+describe LinkedList do
   let(:list) do
     list = LinkedList.new
     list.insert(:first, 1)
