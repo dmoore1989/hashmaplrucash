@@ -75,10 +75,10 @@ class LinkedList
   end
 
   def each
-    i = 0
     @list.each do |link|
       yield(link)
     end
+
     self
   end
 
